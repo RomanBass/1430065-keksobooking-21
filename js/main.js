@@ -87,4 +87,5 @@ let renderOffers = function (offers) { // функция создаёт пуст
 
 const offers = getOffers(OFFERS_NUMBER); // массив предложений
 
+map.classList.remove(`map--faded`);
 renderOffers(offers); // вызываем функцию генерации пинов на карте для массива предложений
