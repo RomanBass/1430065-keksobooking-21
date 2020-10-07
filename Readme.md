@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Роман Катровский](https://up.htmlacademy.ru/javascript/21/user/1430065).
-* Наставник: [Алексей Хапов](https://htmlacademy.ru/profile/id118459).
+* Наставник: [Семён Якушев](https://htmlacademy.ru/profile/id1118791).
 
 ---
 
