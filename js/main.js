@@ -87,5 +87,76 @@ let renderOffers = function (offers) { // функция создаёт пуст
 
 const offers = getOffers(OFFERS_NUMBER); // массив предложений
 
-map.classList.remove(`map--faded`);
-renderOffers(offers); // вызываем функцию генерации пинов на карте для массива предложений
+// --23-10-2020--  ///////////////////////////////////////////////////////////////////////////////
+
+const MAIN_PIN_ARROW_HEIGHT = 22;
+const pinMain = document.querySelector(`.map__pin--main`); // вытащить главный пин
+const mainPinWidth = pinMain.offsetWidth;
+const mainPinHeight = pinMain.offsetHeight;
+const filterSelects = document.querySelectorAll(`.map__filter`);
+const filterFieldset = document.querySelector(`.map__features`);
+const noticeFieldsets = document.querySelectorAll(`.ad-form__element`);
+const noticeHeaderInput = document.querySelector(`.ad-form-header__input`);
+const noticeForm = document.querySelector(`.ad-form`);
+const mainPinInitialX = pinMain.offsetLeft;
+const mainPinInitialY = pinMain.offsetTop;
+const addressInput = document.querySelector(`#address`);
+const roomsNumberSelect = document.querySelector(`#room_number`);
+const guestsNumberSelect = document.querySelector(`#capacity`);
+
+addressInput.value = `${Math.round(mainPinInitialX + mainPinWidth / 2)}, ${Math.round(mainPinInitialY + mainPinHeight / 2)}`;
+
+const makeAnabledOrDisabled = function (boolean) {
+  for (let i = 0; i < filterSelects.length; i++) {
+    filterSelects[i].disabled = boolean;
+  }
+  filterFieldset.disabled = boolean;
+
+  for (let i = 0; i < noticeFieldsets.length; i++) {
+    noticeFieldsets[i].disabled = boolean;
+  }
+  noticeHeaderInput.disabled = boolean;
+};
+
+makeAnabledOrDisabled(true);
+
+pinMain.addEventListener(`mousedown`, function (evt) {
+  if (evt.button === 0) {
+    renderOffers(offers);
+    makeAnabledOrDisabled(false);
+    map.classList.remove(`map--faded`);
+    noticeForm.classList.remove(`ad-form--disabled`);
+    addressInput.value = `${Math.round(mainPinInitialX + mainPinWidth / 2)}, ${Math.round(mainPinInitialY + mainPinHeight + MAIN_PIN_ARROW_HEIGHT)}`;
+  }
+});
+
+pinMain.addEventListener(`keydown`, function (evt) {
+  if (evt.key === `Enter`) {
+    renderOffers(offers);
+    makeAnabledOrDisabled(false);
+    map.classList.remove(`map--faded`);
+    noticeForm.classList.remove(`ad-form--disabled`);
+    addressInput.value = `${Math.round(mainPinInitialX + mainPinWidth / 2)}, ${Math.round(mainPinInitialY + mainPinHeight + MAIN_PIN_ARROW_HEIGHT)}`;
+  }
+});
+
+const getConformity = function (roomsNumber, guestsNumber) {
+  if (roomsNumber.value === `100` && guestsNumber.value !== `0`) {
+    guestsNumber.setCustomValidity(`Этот номер не для гостей`);
+  } else if (roomsNumber.value !== `100` && guestsNumber.value === `0`) {
+    guestsNumber.setCustomValidity(`Этому варианту соответствует номер в 100 комнат`);
+  } else if (roomsNumber.value !== `100` && (roomsNumber.value < guestsNumber.value || guestsNumber.value === `0`)) {
+    guestsNumber.setCustomValidity(`Количество гостей не соответствует местам в номере`);
+  } else {
+    guestsNumber.setCustomValidity(``);
+  }
+};
+
+getConformity(roomsNumberSelect, guestsNumberSelect);
+guestsNumberSelect.addEventListener(`change`, function () {
+  getConformity(roomsNumberSelect, guestsNumberSelect);
+});
+roomsNumberSelect.addEventListener(`change`, function () {
+  getConformity(roomsNumberSelect, guestsNumberSelect);
+});
+
