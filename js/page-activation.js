@@ -30,7 +30,7 @@
 
   window.pinMain.addEventListener(`mousedown`, function (evt) {
     if (evt.button === 0) {
-      window.pin.renderOffers(window.offers);
+      window.renderOffers(window.offers);
       makeDisabled(false);
       window.map.classList.remove(`map--faded`);
       noticeForm.classList.remove(`ad-form--disabled`);
@@ -40,7 +40,7 @@
 
   window.pinMain.addEventListener(`keydown`, function (evt) {
     if (evt.key === `Enter`) {
-      window.pin.renderOffers(window.offers);
+      window.renderOffers(window.offers);
       makeDisabled(false);
       window.map.classList.remove(`map--faded`);
       noticeForm.classList.remove(`ad-form--disabled`);

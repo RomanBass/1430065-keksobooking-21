@@ -12,26 +12,26 @@
   const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`, `https://i2.wp.com/www.sonmezrealestate.com/wp-content/uploads/2018/05/080-1.jpg?fit=1688%2C1125&ssl=1`, `https://elets-adm.ru/assets/images/resources/4281/c50acc2e5c569e61107070cc7fdb5ac0ae840194.jpg`];
 
   let getOffer = function (index) { // функция создаёт предложение
-    const locationX = window.main.getRandomNumber(0, 1200);
-    const locationY = window.main.getRandomNumber(130, 630);
-    const checkInOut = CHECK_IN_OUT[window.main.getRandomNumber(0, CHECK_IN_OUT.length - 1)];
+    const locationX = window.utils.getRandomNumber(0, 1200);
+    const locationY = window.utils.getRandomNumber(130, 630);
+    const checkInOut = CHECK_IN_OUT[window.utils.getRandomNumber(0, CHECK_IN_OUT.length - 1)];
 
     return {
       author: {
         avatar: `img/avatars/user0${index}.png`
       },
       offer: {
-        title: TITLES[window.main.getRandomNumber(0, TITLES.length - 1)],
+        title: TITLES[window.utils.getRandomNumber(0, TITLES.length - 1)],
         address: `${locationX}, ${locationY}`,
-        price: PRICE[window.main.getRandomNumber(0, PRICE.length - 1)],
-        type: TYPE[window.main.getRandomNumber(0, TYPE.length - 1)],
-        rooms: window.main.getRandomNumber(1, ROOMS_MAX_NUMBER),
-        guests: window.main.getRandomNumber(1, GUEST_MAX_NUMBER),
+        price: PRICE[window.utils.getRandomNumber(0, PRICE.length - 1)],
+        type: TYPE[window.utils.getRandomNumber(0, TYPE.length - 1)],
+        rooms: window.utils.getRandomNumber(1, ROOMS_MAX_NUMBER),
+        guests: window.utils.getRandomNumber(1, GUEST_MAX_NUMBER),
         checkin: checkInOut,
         checkout: checkInOut,
-        features: window.main.reduceArray(FEATURES),
-        description: DESCRIPTIONS[window.main.getRandomNumber(0, DESCRIPTIONS.length - 1)],
-        photos: window.main.reduceArray(PHOTOS)
+        features: window.utils.reduceArray(FEATURES),
+        description: DESCRIPTIONS[window.utils.getRandomNumber(0, DESCRIPTIONS.length - 1)],
+        photos: window.utils.reduceArray(PHOTOS)
       },
       location: {
         x: locationX,

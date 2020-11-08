@@ -14,14 +14,12 @@
     return newPin;
   };
 
-  window.pin = {
-    renderOffers(offers) { // функция создаёт пустой фрагмент, генерит пины и вставляет их в этот фрагмент,
-      const fragment = document.createDocumentFragment(); // затем этот фрагмент передаёт в карту.
-      for (let i = 0; i < offers.length; i++) {
-        fragment.appendChild(renderOffer(offers[i]));
-      }
-      window.map.appendChild(fragment);
+  window.renderOffers = function (offers) { // функция создаёт пустой фрагмент, генерит пины и вставляет их в этот фрагмент,
+    const fragment = document.createDocumentFragment(); // затем этот фрагмент передаёт в карту.
+    for (let i = 0; i < offers.length; i++) {
+      fragment.appendChild(renderOffer(offers[i]));
     }
+    window.map.appendChild(fragment);
   };
 
   window.offers = window.data.getOffers(OFFERS_NUMBER); // массив предложений
