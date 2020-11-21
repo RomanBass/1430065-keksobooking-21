@@ -30,7 +30,7 @@
 
   window.pinMain.addEventListener(`mousedown`, function (evt) {
     if (evt.button === 0) {
-      window.renderOffers(window.offers);
+      window.getOffersFromServer();
       makeDisabled(false);
       window.map.classList.remove(`map--faded`);
       noticeForm.classList.remove(`ad-form--disabled`);
@@ -40,7 +40,7 @@
 
   window.pinMain.addEventListener(`keydown`, function (evt) {
     if (evt.key === `Enter`) {
-      window.renderOffers(window.offers);
+      window.getOffersFromServer();
       makeDisabled(false);
       window.map.classList.remove(`map--faded`);
       noticeForm.classList.remove(`ad-form--disabled`);
@@ -48,4 +48,3 @@
     }
   });
 })();
-

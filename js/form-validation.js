@@ -26,4 +26,3 @@
     getConformity(roomsNumberSelect, guestsNumberSelect);
   });
 })();
-
