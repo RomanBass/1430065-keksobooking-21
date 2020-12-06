@@ -3,6 +3,7 @@
 (function () {
   const PIN_WIDTH = 50;
   const PIN_HEIGHT = 70;
+  window.MAX_PINS_NUMBER = 5;
   const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`); // вытаскиваем образец пина из html
 
   window.renderOffer = function (offer) { // функция клонирует образец пина, заполняет свойствами и возвращает его
@@ -14,23 +15,15 @@
   };
 
   window.getOffersFromServer = function () {
-    window.download(function (serverOffers) { // функция создаёт пустой фрагмент, генерит пины и вставляет их в этот фрагмент,
-      const fragment = document.createDocumentFragment(); // затем этот фрагмент передаёт в карту.
-      for (let i = 0; i < serverOffers.length; i++) {
-        fragment.appendChild(window.renderOffer(serverOffers[i]));
+    window.download(function (data) { // функция создаёт пустой фрагмент, генерит пины и вставляет их в этот фрагмент,
+      window.serverOffers = data;
+      let fragment = document.createDocumentFragment();
+      for (let i = 0; i < window.MAX_PINS_NUMBER; i++) {
+        fragment.appendChild(window.renderOffer(window.serverOffers[i]));
       }
-      window.map.appendChild(fragment);
+      window.map.appendChild(fragment); // затем этот фрагмент передаёт в карту.
     }, function (message) {
-      const node = document.createElement(`div`);
-      node.style = `border: 10px solid red; z-index: 100; margin: 0 auto; text-align: center; background-color: yellow; color: red; padding: 80px 0;`;
-      node.style.position = `fixed`;
-      node.style.left = 0;
-      node.style.right = 0;
-      node.style.top = `33vh`;
-      node.style.width = `70%`;
-      node.style.fontSize = `50px`;
-      node.textContent = message;
-      document.body.insertAdjacentElement(`afterbegin`, node);
+      window.utils.showErrorMessage(message);
     });
   };
 

@@ -8,7 +8,7 @@
   const filterFieldset = document.querySelector(`.map__features`);
   const noticeFieldsets = document.querySelectorAll(`.ad-form__element`);
   const noticeHeaderInput = document.querySelector(`.ad-form-header__input`);
-  const noticeForm = document.querySelector(`.ad-form`);
+  window.noticeForm = document.querySelector(`.ad-form`);
 
   window.mainPinInitialX = window.pinMain.offsetLeft;
   window.mainPinInitialY = window.pinMain.offsetTop;
@@ -33,7 +33,7 @@
       window.getOffersFromServer();
       makeDisabled(false);
       window.map.classList.remove(`map--faded`);
-      noticeForm.classList.remove(`ad-form--disabled`);
+      window.noticeForm.classList.remove(`ad-form--disabled`);
       window.addressInput.value = `${Math.round(window.mainPinInitialX + mainPinWidth / 2)}, ${Math.round(window.mainPinInitialY + mainPinHeight + MAIN_PIN_ARROW_HEIGHT)}`;
     }
   });
@@ -43,7 +43,7 @@
       window.getOffersFromServer();
       makeDisabled(false);
       window.map.classList.remove(`map--faded`);
-      noticeForm.classList.remove(`ad-form--disabled`);
+      window.noticeForm.classList.remove(`ad-form--disabled`);
       window.addressInput.value = `${Math.round(window.mainPinInitialX + mainPinWidth / 2)}, ${Math.round(window.mainPinInitialY + mainPinHeight + MAIN_PIN_ARROW_HEIGHT)}`;
     }
   });
