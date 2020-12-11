@@ -12,7 +12,9 @@
   },
   "devDependencies": {
     "eslint": "^7.1.0",
-    "eslint-config-htmlacademy": "0.6.0"
+    "eslint-config-htmlacademy": "0.6.0",
+    "webpack": "5.10.0",
+    "webpack-cli": "4.2.0"
   },
   "license": "MIT",
   "dependencies": {
@@ -21,7 +23,8 @@
   },
   "scripts": {
     "editorconfig": "editorconfig-cli",
-    "test": "eslint js/ && editorconfig-cli"
+    "test": "eslint js/ && editorconfig-cli",
+    "build": "webpack --mode production"
   },
   "editorconfig-cli": [
     "*.json",
