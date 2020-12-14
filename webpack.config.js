@@ -8,6 +8,7 @@ module.exports = {
     "./js/pin.js",
     "./js/filter.js",
     "./js/page-activation.js",
+    "./js/foto.js",
     "./js/form-validation.js"
   ],
   output: {
