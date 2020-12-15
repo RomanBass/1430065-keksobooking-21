@@ -21,7 +21,36 @@ window.getOffersFromServer = function () {
       fragment.appendChild(window.renderOffer(window.serverOffers[i]));
     }
     window.map.appendChild(fragment); // затем этот фрагмент передаёт в карту.
+    console.log(window.serverOffers[3]);
+    window.map.insertBefore(window.renderCard(window.serverOffers[3]), window.mapFilters);
+
   }, function (message) {
     window.utils.showErrorMessage(message);
   });
+
+};
+
+// 15-12-2020 ---------------------------
+const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
+
+window.renderCard = function (offer) {
+  let newCard = cardTemplate.cloneNode(true);
+  newCard.querySelector(`img`).src = offer.author.avatar;
+  newCard.querySelector(`.popup__title`).textContent = offer.offer.title;
+  newCard.querySelector(`.popup__text--price`).innerHTML = `${offer.offer.price}&#x20bd/ночь`;
+  switch (offer.offer.type) {
+    case `bungalow`:
+      newCard.querySelector(`.popup__type`).textContent = `Бунгало`;
+      break;
+    case `flat`:
+      newCard.querySelector(`.popup__type`).textContent = `Кватрира`;
+      break;
+    case `house`:
+      newCard.querySelector(`.popup__type`).textContent = `Дом`;
+      break;
+    case `palace`:
+      newCard.querySelector(`.popup__type`).textContent = `Дворец`;
+      break;
+  }
+  return newCard;
 };
