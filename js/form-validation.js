@@ -24,3 +24,88 @@ guestsNumberSelect.addEventListener(`change`, function () {
 roomsNumberSelect.addEventListener(`change`, function () {
   getConformity(roomsNumberSelect, guestsNumberSelect);
 });
+
+// 24-12-2020 ------------------------------------------------------------------------------
+
+const TITLE_MIN_LENGTH = 30;
+const TITLE_MAX_LENGTH = 100;
+const formTitleInput = document.querySelector(`#title`);
+const MAX_PRICE = 1000000;
+
+const formPriceInput = document.querySelector(`#price`);
+const announcementHousingTypeSelector = document.querySelector(`#type`);
+const announcementAddressInput = document.querySelector(`#address`);
+const announcementInputOptionsSelector = document.querySelector(`#timein`);
+const announcementOutOptions = document.querySelectorAll(`#timeout option`);
+
+let minPrice = 1000;
+
+formTitleInput.addEventListener(`input`, function () {
+  const valueLength = formTitleInput.value.length;
+
+  if (valueLength < TITLE_MIN_LENGTH) {
+    formTitleInput.setCustomValidity(`Добавьте ` + (TITLE_MIN_LENGTH - valueLength) + ` симв.`);
+  } else if (valueLength > TITLE_MAX_LENGTH) {
+    formTitleInput.setCustomValidity(`Удалите ` + (valueLength - TITLE_MAX_LENGTH) + ` симв.`);
+  } else {
+    formTitleInput.setCustomValidity(``);
+  }
+
+  formTitleInput.reportValidity();
+});
+
+formTitleInput.addEventListener(`invalid`, function () {
+  if (formTitleInput.validity.valueMissing) {
+    formTitleInput.setCustomValidity(`Без заголовка не пройдёт!`);
+  }
+});
+
+announcementInputOptionsSelector.addEventListener(`change`, function (evt) {
+  for (let i = 0; i < announcementOutOptions.length; i++) {
+    if (announcementOutOptions[i].hasAttribute(`selected`)) {
+      announcementOutOptions[i].removeAttribute(`selected`);
+    }
+  }
+
+  for (let i = 0; i < announcementOutOptions.length; i++) {
+    if (announcementOutOptions[i].value === evt.target.value) {
+      announcementOutOptions[i].setAttribute(`selected`, `selected`);
+    }
+  }
+
+});
+
+announcementAddressInput.readOnly = true;
+
+announcementHousingTypeSelector.addEventListener(`change`, function (evt) {
+  switch (evt.target.value) {
+    case `bungalow`:
+      minPrice = 0;
+      break;
+    case `flat`:
+      minPrice = 1000;
+      break;
+    case `house`:
+      minPrice = 5000;
+      break;
+    case `palace`:
+      minPrice = 10000;
+      break;
+  }
+  formPriceInput.placeholder = minPrice;
+  formPriceInput.value = ``;
+});
+
+formPriceInput.addEventListener(`input`, function () {
+  const price = formPriceInput.value;
+
+  if (price > MAX_PRICE) {
+    formPriceInput.setCustomValidity(`Больше миллиона цен не бывает`);
+  } else if (price < minPrice) {
+    formPriceInput.setCustomValidity(`Меньше ${minPrice} цены не бывает`);
+  } else {
+    formPriceInput.setCustomValidity(``);
+  }
+
+  formPriceInput.reportValidity();
+});

@@ -28,7 +28,7 @@ const makeDisabled = function (boolean) {
 makeDisabled(true);
 
 window.pinMain.addEventListener(`mousedown`, function (evt) {
-  if (evt.button === 0) {
+  if (evt.button === 0 && window.map.classList.contains(`map--faded`)) {
     window.getOffersFromServer();
     makeDisabled(false);
     window.map.classList.remove(`map--faded`);
@@ -38,7 +38,7 @@ window.pinMain.addEventListener(`mousedown`, function (evt) {
 });
 
 window.pinMain.addEventListener(`keydown`, function (evt) {
-  if (evt.key === `Enter`) {
+  if (evt.key === `Enter` && window.map.classList.contains(`map--faded`)) {
     window.getOffersFromServer();
     makeDisabled(false);
     window.map.classList.remove(`map--faded`);

@@ -17,20 +17,57 @@ window.getOffersFromServer = function () {
   window.download(function (data) { // функция создаёт пустой фрагмент, генерит пины и вставляет их в этот фрагмент,
     window.serverOffers = data;
     let fragment = document.createDocumentFragment();
+
     for (let i = 0; i < window.MAX_PINS_NUMBER; i++) {
       fragment.appendChild(window.renderOffer(window.serverOffers[i]));
     }
+
     window.map.appendChild(fragment); // затем этот фрагмент передаёт в карту.
-    console.log(window.serverOffers[0]);
     window.map.insertBefore(window.renderCard(window.serverOffers[0]), window.mapFilters);
+    window.pinsOffersImages = window.map.querySelectorAll(`.map__pin:not(.map__pin--main) img`);
+    window.pinsOffers = window.map.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+
+    window.map.addEventListener(`click`, function (evt) {
+      pinClickHandler(evt);
+    });
+
+    document.addEventListener(`keydown`, function (evt) {
+      cardEscPressHandler(evt);
+    });
+
+    for (let i = 0; i < window.pinsOffersImages.length; i++) {
+      window.pinsOffersImages[i].id = i;
+      window.pinsOffers[i].id = i;
+    }
 
   }, function (message) {
     window.utils.showErrorMessage(message);
   });
-
 };
 
 // 15-12-2020 ---------------------------
+
+const pinClickHandler = function (evt) {
+  const articleElement = window.map.querySelector(`article`);
+
+  if (!isNaN(parseInt(evt.target.id, 10))) {
+    window.map.removeChild(articleElement);
+    window.map.insertBefore(window.renderCard(window.serverOffers[evt.target.id]), window.mapFilters);
+  }
+
+  if (evt.target.classList.contains(`popup__close`)) {
+    articleElement.classList.add(`visually-hidden`);
+  }
+
+};
+
+const cardEscPressHandler = function (evt) {
+  const articleElement = window.map.querySelector(`article`);
+  if (evt.key === `Escape` && !articleElement.classList.contains(`visually-hidden`)) {
+    evt.preventDefault();
+    articleElement.classList.add(`visually-hidden`);
+  }
+};
 const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 
 window.renderCard = function (offer) {
@@ -38,6 +75,7 @@ window.renderCard = function (offer) {
 
   newCard.querySelector(`img`).src = offer.author.avatar;
   newCard.querySelector(`.popup__title`).textContent = offer.offer.title;
+  newCard.querySelector(`.popup__text--address`).innerHTML = offer.offer.address;
   newCard.querySelector(`.popup__text--price`).innerHTML = `${offer.offer.price}&#x20bd/ночь`;
 
   switch (offer.offer.type) {
@@ -45,7 +83,7 @@ window.renderCard = function (offer) {
       newCard.querySelector(`.popup__type`).textContent = `Бунгало`;
       break;
     case `flat`:
-      newCard.querySelector(`.popup__type`).textContent = `Кватрира`;
+      newCard.querySelector(`.popup__type`).textContent = `Квартира`;
       break;
     case `house`:
       newCard.querySelector(`.popup__type`).textContent = `Дом`;
