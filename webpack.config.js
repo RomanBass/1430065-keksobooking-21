@@ -6,6 +6,7 @@ module.exports = {
     "./js/utils.js",
     "./js/download.js",
     "./js/pin.js",
+    "./js/card.js",
     "./js/filter.js",
     "./js/page-activation.js",
     "./js/foto.js",
