@@ -3,7 +3,7 @@
 const roomsNumberSelect = document.querySelector(`#room_number`);
 const guestsNumberSelect = document.querySelector(`#capacity`);
 
-window.addressInput.value = `${Math.round(window.mainPinInitialX + window.mainPinWidth / 2)}, ${Math.round(window.mainPinInitialY + window.mainPinHeight / 2)}`;
+// window.addressInput.value = `${Math.round(window.mainPinInitialX + window.mainPinWidth / 2)}, ${Math.round(window.mainPinInitialY + window.mainPinHeight / 2)}`;
 
 const getConformity = function (roomsNumber, guestsNumber) {
   if (roomsNumber.value === `100` && guestsNumber.value !== `0`) {
@@ -33,12 +33,16 @@ const formTitleInput = document.querySelector(`#title`);
 const MAX_PRICE = 1000000;
 
 const formPriceInput = document.querySelector(`#price`);
-const announcementHousingTypeSelector = document.querySelector(`#type`);
-const announcementAddressInput = document.querySelector(`#address`);
-const announcementInputOptionsSelector = document.querySelector(`#timein`);
-const announcementOutOptions = document.querySelectorAll(`#timeout option`);
+const noticeHousingTypeSelector = document.querySelector(`#type`);
+const noticeAddressInput = document.querySelector(`#address`);
+const noticeCheckInSelector = document.querySelector(`#timein`);
+const noticeCheckOutSelector = document.querySelector(`#timeout`);
+const noticeCheckInOptions = document.querySelectorAll(`#timein option`);
+const noticeCheckOutOptions = document.querySelectorAll(`#timeout option`);
 
 let minPrice = 1000;
+
+noticeAddressInput.readOnly = true;
 
 formTitleInput.addEventListener(`input`, function () {
   const valueLength = formTitleInput.value.length;
@@ -60,24 +64,20 @@ formTitleInput.addEventListener(`invalid`, function () {
   }
 });
 
-announcementInputOptionsSelector.addEventListener(`change`, function (evt) {
-  for (let i = 0; i < announcementOutOptions.length; i++) {
-    if (announcementOutOptions[i].hasAttribute(`selected`)) {
-      announcementOutOptions[i].removeAttribute(`selected`);
+const makeSelectorsDependent = function (firstSelector, secondSelectorOptions) {
+  firstSelector.addEventListener(`change`, function (evt) {
+    for (let i = 0; i < secondSelectorOptions.length; i++) {
+      if (secondSelectorOptions[i].value === evt.target.value) {
+        secondSelectorOptions[i].selected = true;
+      }
     }
-  }
+  });
+};
 
-  for (let i = 0; i < announcementOutOptions.length; i++) {
-    if (announcementOutOptions[i].value === evt.target.value) {
-      announcementOutOptions[i].setAttribute(`selected`, `selected`);
-    }
-  }
+makeSelectorsDependent(noticeCheckInSelector, noticeCheckOutOptions);
+makeSelectorsDependent(noticeCheckOutSelector, noticeCheckInOptions);
 
-});
-
-announcementAddressInput.readOnly = true;
-
-announcementHousingTypeSelector.addEventListener(`change`, function (evt) {
+noticeHousingTypeSelector.addEventListener(`change`, function (evt) {
   switch (evt.target.value) {
     case `bungalow`:
       minPrice = 0;

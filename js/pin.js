@@ -2,7 +2,7 @@
 
 const PIN_WIDTH = 50;
 const PIN_HEIGHT = 70;
-window.MAX_PINS_NUMBER = 5;
+window.MAX_PINS_NUMBER = 10;
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`); // вытаскиваем образец пина из html
 
 window.renderOffer = function (offer) { // функция клонирует образец пина, заполняет свойствами и возвращает его
@@ -19,11 +19,15 @@ window.getOffersFromServer = function () {
     let fragment = document.createDocumentFragment();
 
     for (let i = 0; i < window.MAX_PINS_NUMBER; i++) {
-      fragment.appendChild(window.renderOffer(window.serverOffers[i]));
+      if (window.serverOffers[i].offer !== null && window.serverOffers[i].offer !== undefined) {
+        fragment.appendChild(window.renderOffer(window.serverOffers[i]));
+      }
     }
 
     window.map.appendChild(fragment); // затем этот фрагмент передаёт в карту.
     window.map.insertBefore(window.renderCard(window.serverOffers[0]), window.mapFilters);
+    window.map.querySelector(`article`).classList.add(`visually-hidden`);
+
     window.pinsOffersImages = window.map.querySelectorAll(`.map__pin:not(.map__pin--main) img`);
     window.pinsOffers = window.map.querySelectorAll(`.map__pin:not(.map__pin--main)`);
 

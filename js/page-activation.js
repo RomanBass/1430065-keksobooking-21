@@ -1,6 +1,5 @@
 'use strict';
 
-const MAIN_PIN_ARROW_HEIGHT = 22;
 const mainPinWidth = window.pinMain.offsetWidth;
 const mainPinHeight = window.pinMain.offsetHeight;
 const filterSelects = document.querySelectorAll(`.map__filter`);
@@ -26,6 +25,7 @@ const makeDisabled = function (boolean) {
 };
 
 makeDisabled(true);
+window.addressInput.value = `${window.mainPinInitialX + Math.round(mainPinWidth / 2)}, ${window.mainPinInitialY + Math.round(mainPinHeight / 2)}`;
 
 window.pinMain.addEventListener(`mousedown`, function (evt) {
   if (evt.button === 0 && window.map.classList.contains(`map--faded`)) {
@@ -33,7 +33,7 @@ window.pinMain.addEventListener(`mousedown`, function (evt) {
     makeDisabled(false);
     window.map.classList.remove(`map--faded`);
     window.noticeForm.classList.remove(`ad-form--disabled`);
-    window.addressInput.value = `${Math.round(window.mainPinInitialX + mainPinWidth / 2)}, ${Math.round(window.mainPinInitialY + mainPinHeight + MAIN_PIN_ARROW_HEIGHT)}`;
+    window.addressInput.value = `${window.mainPinInitialX + Math.round(mainPinWidth / 2)}, ${window.mainPinInitialY + mainPinHeight + window.MAIN_PIN_ARROW_HEIGHT}`;
   }
 });
 
@@ -43,6 +43,6 @@ window.pinMain.addEventListener(`keydown`, function (evt) {
     makeDisabled(false);
     window.map.classList.remove(`map--faded`);
     window.noticeForm.classList.remove(`ad-form--disabled`);
-    window.addressInput.value = `${Math.round(window.mainPinInitialX + mainPinWidth / 2)}, ${Math.round(window.mainPinInitialY + mainPinHeight + MAIN_PIN_ARROW_HEIGHT)}`;
+    window.addressInput.value = `${Math.round(window.mainPinInitialX + mainPinWidth / 2)}, ${Math.round(window.mainPinInitialY + mainPinHeight + window.MAIN_PIN_ARROW_HEIGHT)}`;
   }
 });

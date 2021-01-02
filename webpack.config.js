@@ -4,6 +4,7 @@ module.exports = {
   entry: [
     "./js/main.js",
     "./js/utils.js",
+    "./js/motion.js",
     "./js/download.js",
     "./js/pin.js",
     "./js/card.js",

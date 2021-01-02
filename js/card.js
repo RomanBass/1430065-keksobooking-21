@@ -8,7 +8,13 @@ window.card = {
 
     if (!isNaN(parseInt(evt.target.id, 10))) {
       window.map.removeChild(articleElement);
+
+      for (let i = 0; i < window.pinsOffers.length; i++) {
+        window.pinsOffers[i].classList.remove(`map__pin--active`);
+      }
+
       window.map.insertBefore(window.renderCard(window.serverOffers[evt.target.id]), window.mapFilters);
+      evt.target.closest(`button`).classList.add(`map__pin--active`);
     }
 
     if (evt.target.classList.contains(`popup__close`)) {
