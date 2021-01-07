@@ -109,3 +109,9 @@ formPriceInput.addEventListener(`input`, function () {
 
   formPriceInput.reportValidity();
 });
+
+formPriceInput.addEventListener(`invalid`, function () {
+  if (formPriceInput.validity.valueMissing) {
+    formPriceInput.setCustomValidity(`Как же без цены?`);
+  }
+});

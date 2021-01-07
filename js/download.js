@@ -18,7 +18,7 @@ window.download = function (onLoad, onError) {
   });
 
   xhr.addEventListener(`error`, function () {
-    onError(`Произошла ошибка соединения`);
+    onError(`Ошибка соединения`);
   });
 
   xhr.timeout = TIMEOUT;
@@ -28,4 +28,83 @@ window.download = function (onLoad, onError) {
 
   xhr.open(`GET`, URL);
   xhr.send();
+};
+
+// 06-01-2021 --------------------------------------------------------
+
+window.upload = function (data, onSuccess, onError) {
+  const URL = `https://21.javascript.pages.academy/keksobooking`;
+  const xhr = new XMLHttpRequest();
+  const StatusCode = {
+    OK: 200
+  };
+  const TIMEOUT = 10000;
+  xhr.responseType = `json`;
+
+  xhr.addEventListener(`load`, function () {
+    if (xhr.status === StatusCode.OK) {
+      onSuccess(xhr.response);
+    } else {
+      onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
+    }
+  });
+
+  xhr.addEventListener(`error`, function () {
+    onError(`Ошибка соединения`);
+  });
+
+  xhr.timeout = TIMEOUT;
+  xhr.addEventListener(`timeout`, function () {
+    onError(`Запрос не успел выполниться за ` + xhr.timeout + ` мс`);
+  });
+
+  xhr.open(`POST`, URL);
+  xhr.send(data);
+};
+
+const formSuccessTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
+const formSuccessNotice = formSuccessTemplate.cloneNode(true);
+const formErrorTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
+const formErrorNotice = formErrorTemplate.cloneNode(true);
+
+window.noticeForm.addEventListener(`submit`, function (evt) { // при отправке данных формы...
+  evt.preventDefault();
+
+  window.upload(new FormData(window.noticeForm),
+
+      function () { // функция выполняется, если отправка корректная
+        window.map.appendChild(formSuccessNotice); // добавляем объявление об успешной отправке
+        window.map.classList.add(`map--faded`); // деактивируем карту
+        window.noticeForm.classList.add(`ad-form--disabled`); // деактивируем форму
+        window.makeDisabled(true); // делаем недоступными поля фильтра
+        window.noticeForm.reset(); // сбрасываем форму
+
+        for (let i = 0; i < window.pinsOffers.length; i++) { // удаляем метки
+          window.map.removeChild(window.pinsOffers[i]);
+        }
+        window.removeNotice(formSuccessNotice); // функция для закрытия объявления
+      },
+
+      function (message) { // функция выполняется, если отправка некорректная
+        window.map.appendChild(formErrorNotice); // добавляем объявление об ошибке
+        const formErrorNoticeText = document.querySelector(`.error__message`); // извлекаем параграф с сообщением
+        formErrorNoticeText.textContent = message; // корректируем сообщение
+        window.removeNotice(formErrorNotice); // функция для закрытия объявления
+      });
+
+});
+
+window.removeNotice = function (notice) { // функция для закрытия объявления
+
+  document.addEventListener(`keydown`, function (evtKeydown) { // закрытие сообщения по нажатию esc
+    if (evtKeydown.key === `Escape` && window.map.contains(notice)) { // блокировка, чтобы не выдавалась ошибка об отсутствии дочернего элемента
+      window.map.removeChild(notice);
+    }
+  });
+
+  document.addEventListener(`click`, function () { // закрытие сообщения по клику
+    if (window.map.contains(notice)) { // блокировка, чтобы не выдавалась ошибка об отсутствии дочернего элемента
+      window.map.removeChild(notice);
+    }
+  });
 };

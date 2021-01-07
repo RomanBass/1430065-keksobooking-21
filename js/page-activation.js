@@ -12,7 +12,7 @@ window.mainPinInitialX = window.pinMain.offsetLeft;
 window.mainPinInitialY = window.pinMain.offsetTop;
 window.addressInput = document.querySelector(`#address`);
 
-const makeDisabled = function (boolean) {
+window.makeDisabled = function (boolean) {
   for (let i = 0; i < filterSelects.length; i++) {
     filterSelects[i].disabled = boolean;
   }
@@ -24,13 +24,13 @@ const makeDisabled = function (boolean) {
   noticeHeaderInput.disabled = boolean;
 };
 
-makeDisabled(true);
+window.makeDisabled(true);
 window.addressInput.value = `${window.mainPinInitialX + Math.round(mainPinWidth / 2)}, ${window.mainPinInitialY + Math.round(mainPinHeight / 2)}`;
 
 window.pinMain.addEventListener(`mousedown`, function (evt) {
   if (evt.button === 0 && window.map.classList.contains(`map--faded`)) {
     window.getOffersFromServer();
-    makeDisabled(false);
+    window.makeDisabled(false);
     window.map.classList.remove(`map--faded`);
     window.noticeForm.classList.remove(`ad-form--disabled`);
     window.addressInput.value = `${window.mainPinInitialX + Math.round(mainPinWidth / 2)}, ${window.mainPinInitialY + mainPinHeight + window.MAIN_PIN_ARROW_HEIGHT}`;
@@ -40,7 +40,7 @@ window.pinMain.addEventListener(`mousedown`, function (evt) {
 window.pinMain.addEventListener(`keydown`, function (evt) {
   if (evt.key === `Enter` && window.map.classList.contains(`map--faded`)) {
     window.getOffersFromServer();
-    makeDisabled(false);
+    window.makeDisabled(false);
     window.map.classList.remove(`map--faded`);
     window.noticeForm.classList.remove(`ad-form--disabled`);
     window.addressInput.value = `${Math.round(window.mainPinInitialX + mainPinWidth / 2)}, ${Math.round(window.mainPinInitialY + mainPinHeight + window.MAIN_PIN_ARROW_HEIGHT)}`;

@@ -54,10 +54,10 @@ window.getOffersFromServer = function () {
 
     });
 
-    document.addEventListener(`keydown`, function (evt) { // скрываю карту нажатием ESC
+    document.addEventListener(`keydown`, function (evt) { // скрываю карточку нажатием ESC
       window.card.escPressHandler(evt);
       for (let i = 0; i < window.pinsOffers.length; i++) {
-        window.pinsOffers[i].classList.remove(`map__pin--active`); // делаю метку неактивной
+        window.pinsOffers[i].classList.remove(`map__pin--active`); // делаю активную метку неактивной
       }
     });
 
@@ -66,7 +66,9 @@ window.getOffersFromServer = function () {
       window.pinsOffers[i].id = i;
     }
 
-  }, function (message) {
+  },
+
+  function (message) {
     window.utils.showErrorMessage(message);
   });
 };
