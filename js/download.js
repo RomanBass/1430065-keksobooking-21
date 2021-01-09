@@ -61,11 +61,12 @@ window.upload = function (data, onSuccess, onError) {
   xhr.open(`POST`, URL);
   xhr.send(data);
 };
-
+/*
 const formSuccessTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
 const formSuccessNotice = formSuccessTemplate.cloneNode(true);
 const formErrorTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
-const formErrorNotice = formErrorTemplate.cloneNode(true);
+window.formErrorNotice = formErrorTemplate.cloneNode(true);
+window.main = document.querySelector(`main`); // извлекаем элемент main
 
 window.noticeForm.addEventListener(`submit`, function (evt) { // при отправке данных формы...
   evt.preventDefault();
@@ -73,7 +74,7 @@ window.noticeForm.addEventListener(`submit`, function (evt) { // при отпр
   window.upload(new FormData(window.noticeForm),
 
       function () { // функция выполняется, если отправка корректная
-        window.map.appendChild(formSuccessNotice); // добавляем объявление об успешной отправке
+        window.main.appendChild(formSuccessNotice); // добавляем объявление об успешной отправке
         window.map.classList.add(`map--faded`); // деактивируем карту
         window.noticeForm.classList.add(`ad-form--disabled`); // деактивируем форму
         window.makeDisabled(true); // делаем недоступными поля фильтра
@@ -86,25 +87,31 @@ window.noticeForm.addEventListener(`submit`, function (evt) { // при отпр
       },
 
       function (message) { // функция выполняется, если отправка некорректная
-        window.map.appendChild(formErrorNotice); // добавляем объявление об ошибке
+        window.main.appendChild(window.formErrorNotice); // добавляем объявление об ошибке
         const formErrorNoticeText = document.querySelector(`.error__message`); // извлекаем параграф с сообщением
         formErrorNoticeText.textContent = message; // корректируем сообщение
-        window.removeNotice(formErrorNotice); // функция для закрытия объявления
+        window.removeNotice(window.formErrorNotice); // функция для закрытия объявления
       });
-
 });
 
 window.removeNotice = function (notice) { // функция для закрытия объявления
 
   document.addEventListener(`keydown`, function (evtKeydown) { // закрытие сообщения по нажатию esc
-    if (evtKeydown.key === `Escape` && window.map.contains(notice)) { // блокировка, чтобы не выдавалась ошибка об отсутствии дочернего элемента
-      window.map.removeChild(notice);
+    if (evtKeydown.key === `Escape` && window.main.contains(notice)) { // блокировка, чтобы не выдавалась ошибка об отсутствии дочернего элемента
+      window.main.removeChild(notice);
+      window.pinMain.style.left = window.mainPinInitialX + `px`;
+      window.pinMain.style.top = window.mainPinInitialY + `px`;
+      window.addressInput.value = window.mainPinInitialCoordinates;
     }
   });
 
   document.addEventListener(`click`, function () { // закрытие сообщения по клику
-    if (window.map.contains(notice)) { // блокировка, чтобы не выдавалась ошибка об отсутствии дочернего элемента
-      window.map.removeChild(notice);
+    if (window.main.contains(notice)) { // блокировка, чтобы не выдавалась ошибка об отсутствии дочернего элемента
+      window.main.removeChild(notice);
+      window.pinMain.style.left = window.mainPinInitialX + `px`;
+      window.pinMain.style.top = window.mainPinInitialY + `px`;
+      window.addressInput.value = window.mainPinInitialCoordinates;
     }
   });
 };
+*/

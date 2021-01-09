@@ -17,8 +17,8 @@ housingTypeSelector.addEventListener(`change`, function (evt) {
   });
 
   let fragment = document.createDocumentFragment();
-  const takeNumber = filteredOffers.length > window.MAX_PINS_NUMBER ? window.MAX_PINS_NUMBER : filteredOffers.length;
-  for (let i = 0; i < takeNumber; i++) {
+  const takesNumber = filteredOffers.length > window.MAX_PINS_NUMBER ? window.MAX_PINS_NUMBER : filteredOffers.length;
+  for (let i = 0; i < takesNumber; i++) {
     fragment.appendChild(window.renderOffer(filteredOffers[i]));
   }
   window.map.appendChild(fragment);

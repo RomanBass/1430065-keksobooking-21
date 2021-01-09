@@ -3,8 +3,6 @@
 const roomsNumberSelect = document.querySelector(`#room_number`);
 const guestsNumberSelect = document.querySelector(`#capacity`);
 
-// window.addressInput.value = `${Math.round(window.mainPinInitialX + window.mainPinWidth / 2)}, ${Math.round(window.mainPinInitialY + window.mainPinHeight / 2)}`;
-
 const getConformity = function (roomsNumber, guestsNumber) {
   if (roomsNumber.value === `100` && guestsNumber.value !== `0`) {
     guestsNumber.setCustomValidity(`Этот номер не для гостей`);
@@ -29,9 +27,9 @@ roomsNumberSelect.addEventListener(`change`, function () {
 
 const TITLE_MIN_LENGTH = 30;
 const TITLE_MAX_LENGTH = 100;
-const formTitleInput = document.querySelector(`#title`);
 const MAX_PRICE = 1000000;
 
+const formTitleInput = document.querySelector(`#title`);
 const formPriceInput = document.querySelector(`#price`);
 const noticeHousingTypeSelector = document.querySelector(`#type`);
 const noticeAddressInput = document.querySelector(`#address`);

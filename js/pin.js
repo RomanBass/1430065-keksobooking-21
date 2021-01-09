@@ -20,8 +20,8 @@ window.getOffersFromServer = function () {
     // console.log(window.serverOffers);
 
     let fragment = document.createDocumentFragment();
-
-    for (let i = 0; i < window.MAX_PINS_NUMBER; i++) {
+    const takesNumber = window.serverOffers.length <= window.MAX_PINS_NUMBER ? window.serverOffers.length : window.MAX_PINS_NUMBER; // считается количество итераций, на случай, если с сервера придёт данных меньше, чем максимальное количество показываемых предложений
+    for (let i = 0; i < takesNumber; i++) {
       if (window.serverOffers[i].offer !== null && window.serverOffers[i].offer !== undefined) {
         fragment.appendChild(window.renderOffer(window.serverOffers[i]));
       }

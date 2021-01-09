@@ -6,11 +6,11 @@ const filterSelects = document.querySelectorAll(`.map__filter`);
 const filterFieldset = document.querySelector(`.map__features`);
 const noticeFieldsets = document.querySelectorAll(`.ad-form__element`);
 const noticeHeaderInput = document.querySelector(`.ad-form-header__input`);
-window.noticeForm = document.querySelector(`.ad-form`);
 
 window.mainPinInitialX = window.pinMain.offsetLeft;
 window.mainPinInitialY = window.pinMain.offsetTop;
 window.addressInput = document.querySelector(`#address`);
+window.mainPinInitialCoordinates = `${window.mainPinInitialX + Math.round(mainPinWidth / 2)}, ${window.mainPinInitialY + Math.round(mainPinHeight / 2)}`;
 
 window.makeDisabled = function (boolean) {
   for (let i = 0; i < filterSelects.length; i++) {
@@ -25,7 +25,7 @@ window.makeDisabled = function (boolean) {
 };
 
 window.makeDisabled(true);
-window.addressInput.value = `${window.mainPinInitialX + Math.round(mainPinWidth / 2)}, ${window.mainPinInitialY + Math.round(mainPinHeight / 2)}`;
+window.addressInput.value = window.mainPinInitialCoordinates;
 
 window.pinMain.addEventListener(`mousedown`, function (evt) {
   if (evt.button === 0 && window.map.classList.contains(`map--faded`)) {
