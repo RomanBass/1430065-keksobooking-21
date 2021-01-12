@@ -35,8 +35,8 @@ window.getOffersFromServer = function () {
     window.pinsOffersImages = window.map.querySelectorAll(`.map__pin:not(.map__pin--main) img`);
     window.pinsOffers = window.map.querySelectorAll(`.map__pin:not(.map__pin--main)`);
 
-    window.map.addEventListener(`click`, function (evt) {
-      window.card.pinClickHandler(evt); // генерится карточка при клике по пину
+    window.map.addEventListener(`click`, function (evt) { // генерится карточка при клике по пину
+      window.card.pinClickHandlerForActivation(evt);
 
       const cardPhotosSection = window.map.querySelector(`.popup__photos`); // секция фоток жилья в карточке
       const cardFeaturesSection = window.map.querySelector(`.popup__features`); // секция опций жилья в карточке
@@ -69,6 +69,6 @@ window.getOffersFromServer = function () {
   },
 
   function (message) {
-    window.utils.showErrorMessage(message);
+    window.utils.showErrorMessage(message); // выдаётся произвольное (согласно ТЗ) сообщение об ошибке
   });
 };

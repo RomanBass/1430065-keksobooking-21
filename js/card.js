@@ -3,27 +3,47 @@
 const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 
 window.card = {
-  pinClickHandler(evt) {
+  pinClickHandlerForActivation(evt) {
     const articleElement = window.map.querySelector(`article`);
 
     if (!isNaN(parseInt(evt.target.id, 10))) {
       window.map.removeChild(articleElement);
 
       for (let i = 0; i < window.pinsOffers.length; i++) {
-        window.pinsOffers[i].classList.remove(`map__pin--active`);
+        window.pinsOffers[i].classList.remove(`map__pin--active`); // деактивируются все метки (кроме главной), существующие в ДОМе после активации страницы
       }
 
-      window.map.insertBefore(window.renderCard(window.serverOffers[evt.target.id]), window.mapFilters);
-      evt.target.closest(`button`).classList.add(`map__pin--active`);
+      window.map.insertBefore(window.renderCard(window.serverOffers[evt.target.id]), window.mapFilters); // вставляется элемент карточки перед блоком фильтров
+      evt.target.closest(`button`).classList.add(`map__pin--active`); // активируется нажатая метка
     }
 
-    if (evt.target.classList.contains(`popup__close`)) {
+    if (evt.target.classList.contains(`popup__close`)) { // при нажатии на крестик у карточки, она скрывается
       articleElement.classList.add(`visually-hidden`);
     }
 
   },
 
-  escPressHandler(evt) {
+  pinClickHandlerForFilter(evt) {
+    const articleElement = window.map.querySelector(`article`);
+
+    if (!isNaN(parseInt(evt.target.id, 10))) {
+      window.map.removeChild(articleElement);
+
+      for (let i = 0; i < window.afterFilterPins.length; i++) {
+        window.afterFilterPins[i].classList.remove(`map__pin--active`); // деактивируются все метки (кроме главной), существующие в ДОМе после применения фильтра
+      }
+
+      window.map.insertBefore(window.renderCard(window.filteredOffers[evt.target.id]), window.mapFilters); // вставляется элемент карточки перед блоком фильтров
+      evt.target.closest(`button`).classList.add(`map__pin--active`); // активируется нажатая метка
+    }
+
+    if (evt.target.classList.contains(`popup__close`)) { // при нажатии на крестик у карточки, она скрывается
+      articleElement.classList.add(`visually-hidden`);
+    }
+
+  },
+
+  escPressHandler(evt) { // при нажатии на ESC карточка скрывается
     const articleElement = window.map.querySelector(`article`);
     if (evt.key === `Escape` && !articleElement.classList.contains(`visually-hidden`)) {
       evt.preventDefault();

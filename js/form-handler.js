@@ -63,8 +63,9 @@ const deactivatePage = function () { // функция деактивации с
   window.makeDisabled(true); // делаем недоступными поля фильтра
   window.noticeForm.reset(); // сбрасываем форму
 
-  const takesNumber = window.serverOffers.length <= window.MAX_PINS_NUMBER ? window.serverOffers.length : window.MAX_PINS_NUMBER; // считается количество итераций, на случай, если с сервера придёт данных меньше, чем максимальное количество показываемых предложений
-  for (let i = 0; i < takesNumber; i++) { // удаляем метки
-    window.map.removeChild(window.pinsOffers[i]);
+  const currentPins = window.map.querySelectorAll(`.map__pin:not(.map__pin--main)`); // извлекаем существующие на данный момент метки
+  for (let i = 0; i < currentPins.length; i++) {
+    window.map.removeChild(currentPins[i]); // удаляем существующие на данный момент метки метки
   }
+
 };
