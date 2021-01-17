@@ -1,9 +1,10 @@
 'use strict';
 
-const housingTypeSelector = document.querySelector(`#housing-type`); // извлекаем селектор типа жилья
-
-housingTypeSelector.addEventListener(`change`, function (evt) { // фильтрация меток при изменении опций селектора типа жилья
-  const housingType = evt.target.value; // извлекаем текущий параметр типа жилья из селектора
+window.mapFilters.addEventListener(`change`, function () { // фильтрация меток при изменении опций селектора типа жилья
+  const housingType = document.querySelector(`#housing-type option:checked`).value; // извлекаем текущий параметр типа жилья из селектора
+  const housingPrice = document.querySelector(`#housing-price option:checked`).value; // извлекаем текущий параметр диапазона цен из селектора
+  const housingRooms = document.querySelector(`#housing-rooms option:checked`).value; // извлекаем текущий параметр количества комнат из селектора
+  const housingGuests = document.querySelector(`#housing-guests option:checked`).value; // извлекаем текущий параметр количества гостей из селектора
 
   window.beforeFilterPinsImages = window.map.querySelectorAll(`.map__pin:not(.map__pin--main) img`); // извлекаем изображения в существующих метках до этого фильтра
   window.beforeFilterPins = window.map.querySelectorAll(`.map__pin:not(.map__pin--main)`); // извлекаем существующие метки до этого фильтра
@@ -15,13 +16,61 @@ housingTypeSelector.addEventListener(`change`, function (evt) { // фильтр�
   const articleElement = window.map.querySelector(`article`); // извлекаем карточку
   articleElement.classList.add(`visually-hidden`); // скрываем карточку
 
-  window.filteredOffers = window.serverOffers.filter(function (serverOffer) { // фильтруются предложения полученные с сервера
+  const housingTypeFilteredOffers = window.serverOffers.filter(function (serverOffer) { // фильтруются предложения полученные с сервера по критерию типа жилья
     if (housingType === `any`) {
       return window.serverOffers;
     } else {
       return serverOffer.offer.type === housingType;
     }
   });
+
+  const housingPriceFilteredOffers = housingTypeFilteredOffers.filter(function (serverOffer) { // фильтруются предложения (отфильтрованные в предыдущем фильтре) по диапазону цены
+    let priceRange;
+    switch (housingPrice) {
+      case `any`:
+        priceRange = housingTypeFilteredOffers;
+        break;
+      case `low`:
+        priceRange = (serverOffer.offer.price <= 10000);
+        break;
+      case `middle`:
+        priceRange = (serverOffer.offer.price > 10000 && serverOffer.offer.price < 50000);
+        break;
+      case `high`:
+        priceRange = (serverOffer.offer.price >= 50000);
+    }
+    return priceRange;
+  });
+
+  const housingRoomsFilteredOffers = housingPriceFilteredOffers.filter(function (serverOffer) { // фильтруются предложения (отфильтрованные в предыдущем фильтре) по количеству комнат
+    if (housingRooms === `any`) {
+      return housingPriceFilteredOffers;
+    } else {
+      return serverOffer.offer.rooms === parseInt(housingRooms, 10); // преобразуем строку в целое число, т.к. value содержит строковый параметр
+    }
+  });
+
+  const housingGuestsFilteredOffers = housingRoomsFilteredOffers.filter(function (serverOffer) { // фильтруются предложения (отфильтрованные в предыдущем фильтре) по количеству гостей
+    if (housingGuests === `any`) {
+      return housingRoomsFilteredOffers;
+    } else {
+      return serverOffer.offer.guests === parseInt(housingGuests, 10); // преобразуем строку в целое число, т.к. value содержит строковый параметр
+    }
+  });
+
+  const facilitiesArray = document.querySelectorAll(`#housing-features input`); // извлекаем массив опций удобств
+
+  let facilitiesFilteredOffers = housingGuestsFilteredOffers; // создаём массив предложений, который далее будем фильтровать по критерию удобств
+
+  for (let i = 0; i < facilitiesArray.length; i++) { // цикл проходит по всем элементам массива опций удобств
+    if (facilitiesArray[i].checked) { // если удобство i чекнуто, то...
+      facilitiesFilteredOffers = facilitiesFilteredOffers.filter(function (serverOffer) { // фильтруем массив по удобству i
+        return serverOffer.offer.features.includes(facilitiesArray[i].value);
+      });
+    }
+  }
+
+  window.filteredOffers = facilitiesFilteredOffers; // создаётся массив окончательно отфильтрованных предложений
 
   let fragment = document.createDocumentFragment(); // создаётся фрагмент из отфильтрованных предложений
   const takesNumber = window.filteredOffers.length > window.MAX_PINS_NUMBER ? window.MAX_PINS_NUMBER : window.filteredOffers.length;
